@@ -12,8 +12,8 @@ def fetch_orders() -> list[dict]:
 
 def load_orders_raw(orders: list[dict]) -> int:
     sql = text("""
-        insert into orders_raw (raw_data)
-        values (:raw_data)
+        INSERT INTO orders_raw (raw_data)
+        VALUES (:raw_data)
     """)
     with engine.begin() as conn:
         for row in orders:
