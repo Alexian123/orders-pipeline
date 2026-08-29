@@ -1,0 +1,25 @@
+name: daily-fx-refresh
+
+on:
+  schedule:
+    - cron: "15 5 * * *"   # 05:15 UTC daily
+  workflow_dispatch: {}     # allows manual trigger from the Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Refresh FX rates
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          FX_RATES_API_URL: ${{ secrets.FX_RATES_API_URL }}
+        run: python -m src.pull_fx_rates
+      - name: Refresh aggregate views
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python -m src.refresh_views
