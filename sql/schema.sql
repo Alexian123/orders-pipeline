@@ -65,3 +65,35 @@ WHERE oc.is_flagged = false
 GROUP BY oc.customer_id;
 
 CREATE UNIQUE INDEX IF NOT EXISTS ux_mv_customer_spend_eur ON mv_customer_spend_eur(customer_id);
+
+-- Country revenue for Books/Electronics, >€40k, ranked
+CREATE MATERIALIZED VIEW IF NOT EXISTS mv_country_category_revenue AS
+WITH per_order_eur AS (
+    SELECT
+        oc.country,
+        CASE
+            WHEN oc.currency = 'EUR' THEN oc.line_total
+            ELSE oc.line_total / fx.rate
+        END AS eur_amount
+    FROM orders_clean oc
+    LEFT JOIN lateral (
+        SELECT fx.rate
+        FROM fx_rates fx
+        WHERE fx.currency = oc.currency
+          AND fx.rate_date <= oc.fx_reference_date
+        ORDER BY fx.rate_date DESC
+        LIMIT 1
+    ) fx ON oc.currency <> 'EUR'
+    WHERE oc.category IN ('Books', 'Electronics')
+      AND oc.is_flagged = false
+)
+SELECT
+    country,
+    round(sum(eur_amount), 2) AS revenue_eur,
+    rank() OVER (ORDER BY sum(eur_amount) DESC) AS revenue_rank
+FROM per_order_eur
+GROUP BY country
+HAVING sum(eur_amount) > 40000
+ORDER BY revenue_eur DESC;
+
+CREATE UNIQUE INDEX IF NOT EXISTS ux_mv_country_category_revenue ON mv_country_category_revenue(country);

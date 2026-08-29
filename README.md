@@ -98,3 +98,10 @@ python src/pull_fx_rates.py
 # make sure to fetch the latest fx rates
 python src/refresh_views.py
 ```
+
+
+5. **Country/category breakdown**: refresh materialized view of country revenue for Books/Electronics over €40k
+```base
+# make sure to fetch the latest fx rates
+python src/refresh_views.py
+```
