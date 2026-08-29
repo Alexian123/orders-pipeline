@@ -1,0 +1,214 @@
+=== CLEAN ORDERS PROFILING ===
+
+=== TOTAL RECORDS ===
+ total_records 
+---------------
+          6000
+(1 row)
+
+
+=== DUPLICATE ORDER IDS ===
+ duplicate_order_ids 
+---------------------
+                   0
+(1 row)
+
+
+=== MISSING FIELDS ===
+ total_records | missing_order_id | missing_customer_id | missing_customer_email | missing_order_ts | missing_status | missing_channel | missing_sku | missing_product_name | missing_category | missing_qty | missing_unit_price | missing_currency | missing_country | missing_fx_reference_date 
+---------------+------------------+---------------------+------------------------+------------------+----------------+-----------------+-------------+----------------------+------------------+-------------+--------------------+------------------+-----------------+---------------------------
+          6000 |                0 |                   0 |                      0 |                0 |              0 |               0 |           0 |                    0 |                0 |           0 |                  0 |                0 |               0 |                         0
+(1 row)
+
+
+=== FLAGGED RECORDS ===
+ total_flagged | flagged_by_boolean | flagged_with_reason 
+---------------+--------------------+---------------------
+          6000 |                180 |                 180
+(1 row)
+
+
+=== FLAG REASON DISTRIBUTION ===
+       flag_reason       | count 
+-------------------------+-------
+ non_positive_qty        |   104
+ test_order              |    65
+ non_positive_unit_price |    11
+(3 rows)
+
+
+=== FLAG CONSISTENCY ===
+ inconsistent_flags 
+--------------------
+                  0
+(1 row)
+
+
+=== NON-POSITIVE QUANTITIES ===
+ count 
+-------
+   104
+(1 row)
+
+
+=== NON-POSITIVE PRICES ===
+ count 
+-------
+    11
+(1 row)
+
+
+=== NON-POSITIVE CUSTOMER IDS ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== SKU FORMAT ISSUES ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== SKU DISTRIBUTION ===
+    sku     | occurrences 
+------------+-------------
+ SKU-HK-002 |         400
+ SKU-EL-004 |         395
+ SKU-EL-002 |         395
+ SKU-FA-001 |         394
+ SKU-BK-001 |         392
+ SKU-EL-003 |         391
+ SKU-EL-001 |         382
+ SKU-BK-002 |         376
+ SKU-HK-001 |         372
+ SKU-FA-002 |         361
+ SKU-SP-002 |         361
+ SKU-BE-001 |         355
+ SKU-SP-001 |         354
+ SKU-BE-002 |         350
+ SKU-HK-003 |         348
+ SKU-FA-003 |         319
+ SKU-FA-O03 |          55
+(17 rows)
+
+
+=== SKUs WITH DIFFERENT PRODUCT NAMES ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== SKUs WITH DIFFERENT CATEGORIES ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== WHITESPACE INCONSISTENCIES ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== CASE NORMALIZATION ISSUES ===
+ email_not_lowercase | status_not_lowercase | channel_not_lowercase | currency_not_uppercase | country_not_uppercase 
+---------------------+----------------------+-----------------------+------------------------+-----------------------
+                   0 |                    0 |                     0 |                      0 |                     0
+(1 row)
+
+
+=== MISC CATEGORY ===
+ misc_category_count 
+---------------------
+                   0
+(1 row)
+
+
+=== INVALID / MISSING DATES ===
+ invalid_order_ts 
+------------------
+                0
+(1 row)
+
+
+=== LINE TOTAL VALIDATION ===
+ incorrect_line_totals 
+-----------------------
+                     0
+(1 row)
+
+
+=== NULL LINE TOTALS ===
+ null_line_totals 
+------------------
+                0
+(1 row)
+
+
+=== CURRENCY DISTRIBUTION ===
+ currency | count 
+----------+-------
+ EUR      |  4780
+ RON      |  1220
+(2 rows)
+
+
+=== STATUS DISTRIBUTION ===
+  status   | count 
+-----------+-------
+ completed |  5656
+ refunded  |   279
+ test      |    65
+(3 rows)
+
+
+=== CHANNEL DISTRIBUTION ===
+   channel   | count 
+-------------+-------
+ web         |  3674
+ mobile_app  |  1183
+ marketplace |  1143
+(3 rows)
+
+
+=== CATEGORY DISTRIBUTION ===
+    category    | count 
+----------------+-------
+ Electronics    |  1563
+ Fashion        |  1129
+ Home & Kitchen |  1120
+ Books          |   768
+ Sports         |   715
+ Beauty         |   705
+(6 rows)
+
+
+=== COUNTRY DISTRIBUTION ===
+ country | count 
+---------+-------
+ RO      |  3471
+ HU      |   851
+ DE      |   840
+ BG      |   838
+(4 rows)
+
+
+=== UNFLAGGED BAD RECORDS ===
+ unflagged_bad_records 
+-----------------------
+                     0
+(1 row)
+
+
+=== FLAGGED RECORDS WITH NO FLAGGABLE CONDITION ===
+ incorrectly_flagged 
+---------------------
+                   0
+(1 row)
+

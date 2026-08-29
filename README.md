@@ -80,7 +80,7 @@ psql "$DATABASE_URL" -f sql/profile_raw_orders.sql > logs/raw_orders_profiling.t
 # inspect logs/raw_orders_profiling.txt for profiling results
 python ./src/clean_orders.py
 
-# run profiling queries to inspect the raw data
+# run profiling queries to inspect the cleaned data
 psql "$DATABASE_URL" -f sql/profile_clean_orders.sql > logs/clean_orders_profiling.txt
 # inspect logs/clean_orders_profiling.txt for profiling results
 ```

@@ -1,0 +1,169 @@
+=== MISSING FIELDS ===
+ total_records | missing_order_id | missing_customer_id | missing_customer_email | missing_order_ts | missing_status | missing_channel | missing_sku | missing_product_name | missing_category | missing_qty | missing_unit_price | missing_currency | missing_country | missing_fx_reference_date 
+---------------+------------------+---------------------+------------------------+------------------+----------------+-----------------+-------------+----------------------+------------------+-------------+--------------------+------------------+-----------------+---------------------------
+          9268 |                0 |                 103 |                      0 |                0 |              0 |               0 |           0 |                    0 |               79 |           0 |                  0 |                0 |               0 |                         0
+(1 row)
+
+
+=== CURRENCY DISTRIBUTION ===
+ currency | count 
+----------+-------
+ EUR      |  7340
+ RON      |  1928
+(2 rows)
+
+
+=== STATUS DISTRIBUTION ===
+  status   | count 
+-----------+-------
+ completed |  8764
+ refunded  |   403
+ test      |   101
+(3 rows)
+
+
+=== CHANNEL DISTRIBUTION ===
+   channel   | count 
+-------------+-------
+ web         |  5674
+ mobile_app  |  1845
+ marketplace |  1749
+(3 rows)
+
+
+=== CATEGORY DISTRIBUTION ===
+    category    | count 
+----------------+-------
+ Electronics    |  2376
+ Home & Kitchen |  1729
+ Fashion        |  1714
+ Books          |  1155
+ Sports         |  1109
+ Beauty         |  1106
+                |    79
+(7 rows)
+
+
+=== COUNTRY DISTRIBUTION ===
+ country | count 
+---------+-------
+ RO      |  5384
+ DE      |  1321
+ HU      |  1302
+ BG      |  1261
+(4 rows)
+
+
+=== ORDER TIMESTAMP EXAMPLES ===
+      order_ts       
+---------------------
+ 2026-01-12T10:58:06
+ 1781474381
+ 2026-04-10T06:37:07
+ 2026-04-10T06:37:07
+ 2026-01-12T19:29:55
+ 2026-01-12T19:29:55
+ 2026-02-15T19:37:46
+ 2026-01-03T12:16:50
+ 2026-01-03T12:16:50
+ 2026-01-03T12:16:50
+ 2026-01-14T02:55:25
+ 2026-01-14T02:55:25
+ 2026-05-10T21:22:30
+ 2026-02-14T15:20:53
+ 2026-02-14T15:20:53
+ 2026-02-14T15:20:53
+ 1780642263
+ 1780642263
+ 2026-01-04T08:57:33
+ 2026-01-04T08:57:33
+(20 rows)
+
+
+=== NON-POSITIVE CUSTOMER IDS ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== NON-POSITIVE QUANTITIES ===
+ count 
+-------
+   167
+(1 row)
+
+
+=== NON-POSITIVE PRICES ===
+ count 
+-------
+    24
+(1 row)
+
+
+=== DUPLICATE ORDER IDS ===
+ duplicate_order_ids 
+---------------------
+                2491
+(1 row)
+
+
+=== FX REFERENCE DATE FORMAT ISSUES ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== SKU DISTRIBUTION ===
+    sku     | occurrences 
+------------+-------------
+ SKU-HK-001 |         608
+ SKU-EL-003 |         606
+ SKU-EL-004 |         604
+ SKU-FA-001 |         603
+ SKU-BK-001 |         603
+ SKU-EL-002 |         586
+ SKU-HK-002 |         585
+ SKU-BE-001 |         569
+ SKU-SP-002 |         564
+ SKU-BK-002 |         563
+ SKU-FA-002 |         560
+ SKU-SP-001 |         552
+ SKU-BE-002 |         543
+ SKU-EL-001 |         534
+ SKU-FA-003 |         489
+ SKU-HK-003 |         479
+ SKU-FA-O03 |          77
+ SKU HK 003 |          73
+ SKUEL001   |          70
+(19 rows)
+
+
+=== SKU FORMAT ISSUES ===
+ count 
+-------
+   220
+(1 row)
+
+
+=== SKUs WITH DIFFERENT PRODUCT NAMES ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== SKUs WITH DIFFERENT CATEGORIES ===
+ count 
+-------
+     0
+(1 row)
+
+
+=== TRAILING WHITESPACE INCONSISTENCIES ===
+ count 
+-------
+    49
+(1 row)
+
