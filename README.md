@@ -69,7 +69,7 @@ psql "$DATABASE_URL" -f sql/profile_raw_orders.sql > logs/raw_orders_profiling.t
 - Detected inconsistencies and their resolutions:
     - trailing whitespace inconsistencies -> values will be trimmed (or parsed if numeric)
     - case inconsistencies -> will be normalized
-    - missing customer_id -> will be excluded and flagged
+    - missing customer_id -> will try to determine from the email, otherwise will be excluded and flagged
     - unit_price of '999999' -> will be excluded and flagged
     - order_ts as ISO string OR unix epoch seconds -> will be converted to timestamptz
     - negative or zero qty/unit_price -> will be excluded and flagged

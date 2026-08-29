@@ -17,28 +17,26 @@
 === MISSING FIELDS ===
  total_records | missing_order_id | missing_customer_id | missing_customer_email | missing_order_ts | missing_status | missing_channel | missing_sku | missing_product_name | missing_category | missing_qty | missing_unit_price | missing_currency | missing_country | missing_fx_reference_date 
 ---------------+------------------+---------------------+------------------------+------------------+----------------+-----------------+-------------+----------------------+------------------+-------------+--------------------+------------------+-----------------+---------------------------
-          6000 |                0 |                  62 |                      0 |                0 |              0 |               0 |           0 |                    0 |                0 |           0 |                  0 |                0 |               0 |                         0
+          6000 |                0 |                   1 |                      0 |                0 |              0 |               0 |           0 |                    0 |                0 |           0 |                  0 |                0 |               0 |                         0
 (1 row)
 
 
 === FLAGGED RECORDS ===
  total_flagged | flagged_by_boolean | flagged_with_reason 
 ---------------+--------------------+---------------------
-          6000 |                246 |                 246
+          6000 |                188 |                 188
 (1 row)
 
 
 === FLAG REASON DISTRIBUTION ===
-              flag_reason              | count 
----------------------------------------+-------
- non_positive_qty                      |   103
- test_order                            |    63
- missing_customer_id                   |    59
- non_positive_unit_price               |    11
- unit_price_too_high                   |     7
- missing_customer_id, test_order       |     2
- missing_customer_id, non_positive_qty |     1
-(7 rows)
+       flag_reason       | count 
+-------------------------+-------
+ non_positive_qty        |   104
+ test_order              |    65
+ non_positive_unit_price |    11
+ unit_price_too_high     |     7
+ missing_customer_id     |     1
+(5 rows)
 
 
 === FLAG CONSISTENCY ===

@@ -86,6 +86,28 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     df["qty"] = pd.to_numeric(df["qty"], errors="coerce")
     df["unit_price"] = pd.to_numeric(df["unit_price"], errors="coerce")
 
+    # Build customer email -> customer ID mapping
+    email_customer_map = (
+        df.loc[
+            df["customer_email"].notna()
+            & (df["customer_email"] != "")
+            & df["customer_id"].notna(),
+            ["customer_email", "customer_id"]
+        ]
+        .drop_duplicates()
+        .groupby("customer_email")["customer_id"]
+        .first()
+        .to_dict()
+    )
+
+    # Fill missing customer IDs using the customer's email
+    missing_customer_id = df["customer_id"].isna()
+
+    df.loc[missing_customer_id, "customer_id"] = (
+        df.loc[missing_customer_id, "customer_email"]
+        .map(email_customer_map)
+    )
+
     # Keep latest order_ts per order_id
     df = df.sort_values("order_ts").drop_duplicates("order_id", keep="last")
 
