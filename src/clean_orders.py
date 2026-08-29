@@ -1,6 +1,9 @@
+import logging
 import pandas as pd
 from sqlalchemy import text
 from src.db import engine
+
+logger = logging.getLogger(__name__)
 
 def parse_ts(value):
     if value is None:
@@ -31,8 +34,10 @@ def parse_sku(value):
     return None
 
 def load_raw() -> pd.DataFrame:
+    logger.info("Loading raw orders from orders_raw table")
     with engine.connect() as conn:
         df = pd.read_sql(text("SELECT raw_data FROM orders_raw"), conn)
+    logger.info(f"Loaded {len(df)} raw orders")
     return pd.json_normalize(df["raw_data"])
 
 def clean(df: pd.DataFrame) -> pd.DataFrame:
@@ -138,12 +143,13 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     return df[keep_cols]
 
 def write_clean(df: pd.DataFrame):
+    logger.info(f"Writing {len(df)} cleaned orders to orders_clean table")
     with engine.begin() as conn:
         conn.execute(text("truncate table orders_clean"))
         df.to_sql("orders_clean", conn, if_exists="append", index=False, method="multi", chunksize=500)
+    logger.info(f"orders_clean: {len(df)} rows, {df['is_flagged'].sum()} flagged")
 
 if __name__ == "__main__":
     raw_df = load_raw()
     clean_df = clean(raw_df)
     write_clean(clean_df)
-    print(f"orders_clean: {len(clean_df)} rows, {clean_df['is_flagged'].sum()} flagged")
