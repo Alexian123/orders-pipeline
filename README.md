@@ -84,3 +84,10 @@ python ./src/clean_orders.py
 psql "$DATABASE_URL" -f sql/profile_clean_orders.sql > logs/clean_orders_profiling.txt
 # inspect logs/clean_orders_profiling.txt for profiling results
 ```
+
+3. **Exchange rates**: fetch exchange rates from earliest fx_reference_date to the latest fx_reference_date (or today)
+- Rates are only needed for RON to EUR exchange, based on the profiling results from orders_raw
+```base
+python src/pull_fx_rates.py
+# this should be re-run daily to pull the latest rates
+```

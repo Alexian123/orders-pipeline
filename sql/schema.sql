@@ -27,3 +27,13 @@ CREATE TABLE IF NOT EXISTS orders_clean (
     flag_reason         text,
     cleaned_at          timestamptz NOT NULL DEFAULT now()
 );
+
+-- Daily FX rates storage
+CREATE TABLE IF NOT EXISTS fx_rates (
+    rate_date       date NOT NULL,
+    base_currency   text NOT NULL DEFAULT 'EUR',
+    currency        text NOT NULL,
+    rate            numeric(18,8) NOT NULL,
+    fetched_at      timestamptz NOT NULL DEFAULT now(),
+    PRIMARY KEY (rate_date, base_currency, currency)
+);
