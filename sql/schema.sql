@@ -61,7 +61,7 @@ LEFT JOIN lateral (
     ORDER BY fx.rate_date DESC
     LIMIT 1
 ) fx ON oc.currency <> 'EUR'
-WHERE oc.is_flagged = false
+WHERE oc.is_flagged = false AND oc.status <> 'refunded'
 GROUP BY oc.customer_id;
 
 CREATE UNIQUE INDEX IF NOT EXISTS ux_mv_customer_spend_eur ON mv_customer_spend_eur(customer_id);
@@ -85,7 +85,7 @@ WITH per_order_eur AS (
         LIMIT 1
     ) fx ON oc.currency <> 'EUR'
     WHERE oc.category IN ('Books', 'Electronics')
-      AND oc.is_flagged = false
+      AND oc.is_flagged = false AND oc.status <> 'refunded'
 )
 SELECT
     country,
