@@ -2,9 +2,9 @@ import datetime as dt
 import requests
 from sqlalchemy import text
 from src.db import engine
-from src.config import FX_BASE_CURRENCY
+from src.config import FX_BASE_CURRENCY, FX_RATES_API_URL
 
-FRANKFURTER_URL = "https://api.frankfurter.dev/v1/{start}..{end}"
+API_URL = f"{FX_RATES_API_URL}/{{start}}..{{end}}"
 
 def get_order_date_bounds() -> tuple[dt.date, dt.date]:
     with engine.connect() as conn:
@@ -23,7 +23,7 @@ def fetch_fx_range(
 ) -> dict:
     end_capped = min(end, dt.date.today())
 
-    url = FRANKFURTER_URL.format(
+    url = API_URL.format(
         start=start.isoformat(),
         end=end_capped.isoformat(),
     )
