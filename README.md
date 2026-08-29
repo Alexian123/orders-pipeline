@@ -105,3 +105,10 @@ python src/refresh_views.py
 # make sure to fetch the latest fx rates
 python src/refresh_views.py
 ```
+
+### Run Full Pipeline
+- Run all steps from above in one command
+```base
+# Run once locally after making sure the tables/views exist and are empty
+python src/run_all.py
+```
