@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS orders_raw (
 -- Cleaned orders storage
 CREATE TABLE IF NOT EXISTS orders_clean (
     order_id            text PRIMARY KEY,
-    customer_id         text,
+    customer_id         bigint,
     customer_email      text,
     order_ts            timestamptz,
     status              text,
@@ -37,3 +37,31 @@ CREATE TABLE IF NOT EXISTS fx_rates (
     fetched_at      timestamptz NOT NULL DEFAULT now(),
     PRIMARY KEY (rate_date, base_currency, currency)
 );
+
+-- Customer spend in EUR materialized view
+CREATE MATERIALIZED VIEW IF NOT EXISTS mv_customer_spend_eur AS
+SELECT
+    oc.customer_id,
+    max(oc.customer_email) AS customer_email,
+    round(
+        sum(
+            CASE
+                WHEN oc.currency = 'EUR' THEN oc.line_total
+                ELSE oc.line_total / fx.rate
+            END
+        ), 2
+    ) AS total_spend_eur,
+    count(*) AS order_count
+FROM orders_clean oc
+LEFT JOIN lateral (
+    SELECT fx.rate
+    FROM fx_rates fx
+    WHERE fx.currency = oc.currency
+      AND fx.rate_date <= oc.fx_reference_date
+    ORDER BY fx.rate_date DESC
+    LIMIT 1
+) fx ON oc.currency <> 'EUR'
+WHERE oc.is_flagged = false
+GROUP BY oc.customer_id;
+
+CREATE UNIQUE INDEX IF NOT EXISTS ux_mv_customer_spend_eur ON mv_customer_spend_eur(customer_id);

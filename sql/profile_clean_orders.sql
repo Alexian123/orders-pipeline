@@ -393,6 +393,7 @@ WHERE
         OR TRIM(customer_id::text) = ''
         OR qty <= 0
         OR unit_price <= 0
+        OR unit_price > 100000
         OR LOWER(status) = 'test'
     )
     AND is_flagged = FALSE;
@@ -410,5 +411,6 @@ WHERE is_flagged = TRUE
         OR TRIM(customer_id::text) = ''
         OR qty <= 0
         OR unit_price <= 0
+        OR unit_price > 100000
         OR LOWER(status) = 'test'
   );

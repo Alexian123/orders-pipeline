@@ -40,7 +40,6 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
 
     # Trim whitespace and normalize case for text columns
     df["order_id"] = df["order_id"].astype(str).str.strip().str.upper()
-    df["customer_id"] = df["customer_id"].astype(str).str.strip().str.upper()
     df["customer_email"] = df["customer_email"].astype(str).str.strip().str.lower()
     df["status"] = df["status"].astype(str).str.strip().str.lower()
     df["channel"] = df["channel"].astype(str).str.strip().str.lower()
@@ -83,6 +82,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     df["fx_reference_date"] = pd.to_datetime(df["fx_reference_date"], errors="coerce").dt.date
 
     # Parse numeric columns, coercing errors to NaN
+    df["customer_id"] = pd.to_numeric(df["customer_id"], errors="coerce")
     df["qty"] = pd.to_numeric(df["qty"], errors="coerce")
     df["unit_price"] = pd.to_numeric(df["unit_price"], errors="coerce")
 
@@ -92,12 +92,14 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     flags = []
     for _, r in df.iterrows():
         reasons = []
-        if pd.isna(r["customer_id"]) or r["customer_id"] in ["", "NA", "N/A", "NULL", "NONE"]:
+        if pd.isna(r["customer_id"]):
             reasons.append("missing_customer_id")
         if pd.notna(r["qty"]) and r["qty"] <= 0:
             reasons.append("non_positive_qty")
         if pd.notna(r["unit_price"]) and r["unit_price"] <= 0:
             reasons.append("non_positive_unit_price")
+        if pd.notna(r["unit_price"]) and r["unit_price"] > 10000:
+            reasons.append("unit_price_too_high")
         if r["status"] == "test":
             reasons.append("test_order")
         flags.append(", ".join(reasons) if reasons else None)

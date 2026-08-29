@@ -69,10 +69,11 @@ psql "$DATABASE_URL" -f sql/profile_raw_orders.sql > logs/raw_orders_profiling.t
 - Detected inconsistencies and their resolutions:
     - trailing whitespace inconsistencies -> values will be trimmed (or parsed if numeric)
     - case inconsistencies -> will be normalized
-    - missing customer_id -> will be excluded from aggregates
+    - missing customer_id -> will be excluded and flagged
+    - unit_price of '999999' -> will be excluded and flagged
     - order_ts as ISO string OR unix epoch seconds -> will be converted to timestamptz
-    - negative or zero qty/unit_price -> will be excluded from aggregates
-    - status "test" -> will be excluded from aggregates
+    - negative or zero qty/unit_price -> will be excluded and flagged
+    - status "test" -> will be excluded and flagged
     - duplicate order_id -> will keep most recent by order_ts
     - missing category field on some entries -> will be set to "Misc"
     - SKU format inconsistencies -> will converted to "SKU-XX-XXX"
@@ -90,4 +91,10 @@ psql "$DATABASE_URL" -f sql/profile_clean_orders.sql > logs/clean_orders_profili
 ```base
 python src/pull_fx_rates.py
 # this should be re-run daily to pull the latest rates
+```
+
+4. **Customer spend in EUR**: refresh materialized view of total amount spent in EUR for each customer
+```base
+# make sure to fetch the latest fx rates
+python src/refresh_views.py
 ```

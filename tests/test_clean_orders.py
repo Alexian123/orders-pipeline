@@ -65,7 +65,7 @@ def test_clean_normalizes_text_fields():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": " C001 ",
+            "customer_id": "1",
             "customer_email": " TEST@EXAMPLE.COM ",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": " COMPLETED ",
@@ -85,7 +85,7 @@ def test_clean_normalizes_text_fields():
 
     row = result.iloc[0]
 
-    assert row["customer_id"] == "C001"
+    assert row["customer_id"] == 1
     assert row["customer_email"] == "test@example.com"
     assert row["status"] == "completed"
     assert row["channel"] == "web"
@@ -100,7 +100,7 @@ def test_clean_missing_category_becomes_misc():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": "001",
             "customer_email": "test@example.com",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": "completed",
@@ -125,7 +125,7 @@ def test_clean_numeric_columns():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": "1",
             "customer_email": "test@example.com",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": "completed",
@@ -151,7 +151,7 @@ def test_clean_invalid_numeric_values_become_nan():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": "1",
             "customer_email": "test@example.com",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": "completed",
@@ -177,7 +177,7 @@ def test_clean_keeps_latest_order():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": 1,
             "customer_email": "old@example.com",
             "order_ts": "2024-01-01T10:00:00Z",
             "status": "pending",
@@ -193,7 +193,7 @@ def test_clean_keeps_latest_order():
         },
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": "1",
             "customer_email": "new@example.com",
             "order_ts": "2024-01-02T10:00:00Z",
             "status": "completed",
@@ -246,7 +246,7 @@ def test_clean_flags_non_positive_values():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": 1,
             "customer_email": "test@example.com",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": "completed",
@@ -269,11 +269,37 @@ def test_clean_flags_non_positive_values():
     assert "non_positive_unit_price" in result.iloc[0]["flag_reason"]
 
 
+def test_clean_flags_unit_price_too_high():
+    df = pd.DataFrame([
+        {
+            "order_id": "1",
+            "customer_id": 1,
+            "customer_email": "test@example.com",
+            "order_ts": "2024-01-01T12:00:00Z",
+            "status": "completed",
+            "channel": "web",
+            "sku": "AB123",
+            "product_name": "widget",
+            "category": "electronics",
+            "qty": 1,
+            "unit_price": 10001,
+            "currency": "EUR",
+            "country": "RO",
+            "fx_reference_date": "2024-01-01",
+        }
+    ])
+
+    result = clean(df)
+
+    assert bool(result.iloc[0]["is_flagged"])
+    assert "unit_price_too_high" in result.iloc[0]["flag_reason"]
+
+
 def test_clean_flags_test_order():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": "1",
             "customer_email": "test@example.com",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": " TEST ",
@@ -299,7 +325,7 @@ def test_clean_line_total():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": "1",
             "customer_email": "test@example.com",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": "completed",
@@ -325,7 +351,7 @@ def test_clean_unflagged_order():
     df = pd.DataFrame([
         {
             "order_id": "1",
-            "customer_id": "C001",
+            "customer_id": "1",
             "customer_email": "test@example.com",
             "order_ts": "2024-01-01T12:00:00Z",
             "status": "completed",
@@ -351,7 +377,7 @@ def test_write_clean():
     df = pd.DataFrame([
         {
             "order_id": "TEST-1",
-            "customer_id": "C001",
+            "customer_id": "1",
             "customer_email": "test@example.com",
             "order_ts": pd.Timestamp("2024-01-01", tz="UTC"),
             "status": "completed",

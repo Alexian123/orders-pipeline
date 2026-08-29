@@ -38,7 +38,7 @@ def test_get_order_date_bounds():
             VALUES
             (
                 'TEST-FX-1',
-                'C001',
+                '1',
                 'test1@example.com',
                 '2024-01-10 12:00:00+00',
                 'completed',
@@ -57,7 +57,7 @@ def test_get_order_date_bounds():
             ),
             (
                 'TEST-FX-2',
-                'C002',
+                '2',
                 'test2@example.com',
                 '2024-01-20 12:00:00+00',
                 'completed',

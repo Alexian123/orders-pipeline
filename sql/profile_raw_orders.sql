@@ -111,6 +111,15 @@ FROM orders_raw
 WHERE (raw_data ->> 'qty')::numeric <= 0;
 
 
+-- Suspiciously high quantities
+\echo ''
+\echo '=== SUSPICIOUSLY HIGH QUANTITIES ==='
+SELECT
+    raw_data ->> 'qty' AS qty
+FROM orders_raw
+WHERE (raw_data ->> 'qty')::numeric > 10000;
+
+
 -- Negative / zero prices
 \echo ''
 \echo '=== NON-POSITIVE PRICES ==='
@@ -119,6 +128,16 @@ SELECT
     COUNT(*) AS count
 FROM orders_raw
 WHERE (raw_data ->> 'unit_price')::numeric <= 0;
+
+
+-- Suspiciously high prices
+\echo ''
+\echo '=== SUSPICIOUSLY HIGH PRICES ==='
+
+SELECT
+    raw_data ->> 'unit_price' AS unit_price
+FROM orders_raw
+WHERE (raw_data ->> 'unit_price')::numeric > 10000;
 
 
 -- Duplicate orders

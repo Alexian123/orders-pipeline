@@ -94,11 +94,36 @@
 (1 row)
 
 
+=== SUSPICIOUSLY HIGH QUANTITIES ===
+ qty 
+-----
+(0 rows)
+
+
 === NON-POSITIVE PRICES ===
  count 
 -------
     24
 (1 row)
+
+
+=== SUSPICIOUSLY HIGH PRICES ===
+ unit_price 
+------------
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+ 999999
+(13 rows)
 
 
 === DUPLICATE ORDER IDS ===
