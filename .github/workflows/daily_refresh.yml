@@ -17,6 +17,7 @@ jobs:
       - name: Refresh FX rates
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          ORDERS_ENDPOINT: ${{ secrets.ORDERS_ENDPOINT }}
           FX_RATES_API_URL: ${{ secrets.FX_RATES_API_URL }}
         run: python -m src.pull_fx_rates
       - name: Refresh aggregate views
