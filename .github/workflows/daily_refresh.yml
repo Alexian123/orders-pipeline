@@ -1,30 +1,30 @@
-name: daily-fx-refresh
+# name: daily-fx-refresh
 
-on:
-  schedule:
-    - cron: "15 5 * * *"
-  workflow_dispatch: {}
+# on:
+#   schedule:
+#     - cron: "15 5 * * *"
+#   workflow_dispatch: {}
 
-jobs:
-  refresh:
-    runs-on: ubuntu-latest
+# jobs:
+#   refresh:
+#     runs-on: ubuntu-latest
 
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      ORDERS_ENDPOINT: ${{ secrets.ORDERS_ENDPOINT }}
-      FX_RATES_API_URL: ${{ secrets.FX_RATES_API_URL }}
+#     env:
+#       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#       ORDERS_ENDPOINT: ${{ secrets.ORDERS_ENDPOINT }}
+#       FX_RATES_API_URL: ${{ secrets.FX_RATES_API_URL }}
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.12"
 
-      - run: pip install -r requirements.txt
+#       - run: pip install -r requirements.txt
 
-      - name: Refresh FX rates
-        run: python -m src.pull_fx_rates
+#       - name: Refresh FX rates
+#         run: python -m src.pull_fx_rates
 
-      - name: Refresh aggregate views
-        run: python -m src.refresh_views
+#       - name: Refresh aggregate views
+#         run: python -m src.refresh_views
